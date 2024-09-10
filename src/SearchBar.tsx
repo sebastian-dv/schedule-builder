@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useState, useEffect, ChangeEvent } from "react";
-import { GETAFE_DATA } from "./Constants";
+import { GETAFE_DATA, LEGANES_DATA } from "./Constants";
 
 export default function SearchBar() {
-	const [majors, setMajors] = useState();
+	const [classes, setClasses] = useState<any>();
 	const [input, setInput] = useState<string>("");
 
 	const [searchBy, setSearchBy] = useState<string>('class');
@@ -53,17 +53,21 @@ export default function SearchBar() {
 	}
 
 	useEffect(() => {
-		axios.get(GETAFE_DATA).then((major) => {
-				setMajors(major.data);
-				console.log(major.data);
-				console.log(
-					major.data["Doble Grado en Ciencias Políticas y Sociología"]["10065"]
-						["groups"]["Grupo 1"]["schedule"][0]["day"],
-				);
-		})
-			.catch((err) => {
-				console.log(err);
-			});
+		axios.all([
+			axios.get(GETAFE_DATA),
+			axios.get(LEGANES_DATA)
+		])
+		.then(axios.spread((getafe, leganes) => {
+			console.log(getafe.data);
+			console.log(leganes.data);
+			setClasses({
+					'getafe': getafe.data,
+					'leganes': leganes.data
+				})
+		}))
+		.catch((err) => {
+			console.log(err);
+		});
 	}, []);
 
 	return (
