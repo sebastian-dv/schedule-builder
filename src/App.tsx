@@ -7,7 +7,8 @@ function App() {
   return (
     <>
       <SearchBar />
-			<div>schedule builder</div>
+			<div></div>
+			<br />
 			<Calendar showMore={false} />
     </>
   )

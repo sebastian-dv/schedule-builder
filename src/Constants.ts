@@ -1,4 +1,7 @@
 
+export const GETAFE_DATA = '/src/data/getafe-data.json';
+export const LEGANES_DATA = '/src/data/leganes-data.json';
+
 export const WEEKDAYS = [ 
 	//{ day: 'Domingo', class: 'domingo' }, 
 	{ day: 'Lunes', class: 'lunes' }, 
