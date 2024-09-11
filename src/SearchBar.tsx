@@ -3,8 +3,9 @@ import { useState, useEffect, ChangeEvent } from "react";
 import { GETAFE_DATA, LEGANES_DATA } from "./Constants";
 
 export default function SearchBar() {
-	const [classes, setClasses] = useState<any>();
+	const [data, setData] = useState<any>();
 	const [input, setInput] = useState<string>("");
+    const [classes, setClasses] = useState<any>([]);
 
 	const [searchBy, setSearchBy] = useState<string>('class');
 	const searchParam = [
@@ -15,24 +16,34 @@ export default function SearchBar() {
 
 	const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
 		const target = e.target;
-		if (target) setInput(target.value.toLowerCase());
+		if (target) setInput(target.value);
 	};
+
+    const getClasses = () => {
+        for(const campusKey in data) {
+            const campus = data[campusKey];
+            for(const majorKey in campus) {
+                const major = campus[majorKey];
+                for (const classCode in major) {
+                    const course = major[classCode];
+                    setClasses(classes + course);
+                }
+            }
+        }
+    }
 
 	const search = () => {
 		if (input.trim() !== '') {
 			console.log('attempt search');
 			switch(searchBy) {
 				case 'class': {
-					searchClass();
-					break;
+					return searchClass();
 				}
 				case 'code': {
-					searchCode();
-					break;
+					return searchCode();
 				}
 				case 'major': {
-					searchMajor();
-					break;
+					return searchMajor();
 				}
 			}
 		} else {
@@ -42,6 +53,17 @@ export default function SearchBar() {
 
 	const searchClass = () => {
 		console.log('search by class');
+        const result = classes.filter( (course:any) => {
+            if(course["title"].indexOf(input)) {
+                console.log(course["title"]);
+                return true;
+            }
+            console.log("Not Found");
+            console.log(course["title"]);
+        });
+
+        console.log(result);
+        return result;
 	}
 
 	const searchCode = () => {
@@ -60,7 +82,7 @@ export default function SearchBar() {
 		.then(axios.spread((getafe, leganes) => {
 			console.log(getafe.data);
 			console.log(leganes.data);
-			setClasses({
+			setData({
 					'getafe': getafe.data,
 					'leganes': leganes.data
 				})
@@ -68,8 +90,13 @@ export default function SearchBar() {
 		.catch((err) => {
 			console.log(err);
 		});
+        getClasses();
+        console.log(classes);
 	}, []);
 
+    if(classes) {
+        console.log(classes);
+    }
 	return (
 		<>
 			<div >
