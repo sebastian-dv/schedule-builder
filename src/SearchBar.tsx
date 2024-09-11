@@ -61,7 +61,6 @@ export default function SearchBar() {
 		console.log('Input: ' + input);
     console.log("search by class");
 		const result = [];
-		console.log(classes);
 		for (var i = 0; i < classes.length; i++) {
 			let title = removeAccents(classes[i]['title']).toLowerCase();
 			if (title.indexOf(input) !== -1) {
@@ -74,6 +73,15 @@ export default function SearchBar() {
 
   const searchCode = () => {
     console.log("search by code");
+		const result = [];
+		for (var i = 0; i < classes.length; i++) {
+			let code = classes[i]['code'];
+			if (code.indexOf(input) !== -1) {
+				result.push(classes[i]);
+			}
+		}
+    console.log(result);
+    return result;
   };
 
   const searchMajor = () => {
