@@ -3,9 +3,9 @@ import { useState, useEffect, ChangeEvent } from "react";
 import { GETAFE_DATA, LEGANES_DATA } from "./Constants";
 
 export default function SearchBar() {
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<any>({});
   const [input, setInput] = useState<string>("");
-	const [classes, setClasses] = useState<any>();
+  const [classes, setClasses] = useState<any>();
 
   const [searchBy, setSearchBy] = useState<string>("class");
   const searchParam = [
@@ -27,7 +27,8 @@ export default function SearchBar() {
         const major = campus[majorKey];
         for (const classCode in major) {
           const course = major[classCode];
-					classList.push(course);
+		  classList.push(course);
+          //console.log("Length:");
         }
       }
     }
@@ -63,7 +64,7 @@ export default function SearchBar() {
 		const result = [];
 		for (var i = 0; i < classes.length; i++) {
 			let title = removeAccents(classes[i]['title']).toLowerCase();
-			if (title.indexOf(input) !== -1) {
+			if (title.indexOf(input)) {
 				result.push(classes[i]);
 			}
 		}
@@ -76,7 +77,7 @@ export default function SearchBar() {
 		const result = [];
 		for (var i = 0; i < classes.length; i++) {
 			let code = classes[i]['code'];
-			if (code.indexOf(input) !== -1) {
+			if (code.indexOf(input)) {
 				result.push(classes[i]);
 			}
 		}
@@ -85,27 +86,30 @@ export default function SearchBar() {
   };
 
   const searchMajor = () => {
-    console.log("search by major");
+    const result = [];
   };
+
 
   useEffect(() => {
     axios
       .all([axios.get(GETAFE_DATA), axios.get(LEGANES_DATA)])
       .then(
         axios.spread((getafe, leganes) => {
-          setData({
+         setData({
             getafe: getafe.data,
             leganes: leganes.data,
           });
-					setClasses(getClasses());
-					console.log(data);
-					console.log(classes);
-        }),
+        })
       )
       .catch((err) => {
         console.log(err);
       });
+
   }, []);
+
+  useEffect( () => { // getClasses and set them once above useEffect has setData
+    setClasses(getClasses());
+  }, [data]);
 
   return (
     <>
