@@ -1,0 +1,154 @@
+.calendar {
+	display: grid;
+	grid-template-columns: 45px repeat(5, 1fr);
+	width: 900px;
+	border-radius: 5px;
+	background-color: grey;
+	padding: 2px;
+}
+
+.large-calendar {
+	height: 1000px;
+	grid-template-rows: 20px repeat(26, 1fr);
+}
+
+.small-calendar {
+	height: 600px;
+	grid-template-rows: 20px repeat(13, 1fr);
+}
+
+.hour-line {
+	position: absolute;
+	top: 20px;
+	border-style: dashed;
+	width: 900px;
+}
+
+.size {
+	font-size: 10px;
+}
+
+.lunes {
+	grid-column-start: 2;
+}
+
+.martes {
+	grid-column-start: 3;
+}
+
+.miercoles {
+	grid-column-start: 4;
+}
+
+.jueves {
+	grid-column-start: 5;
+}
+
+.viernes {
+	grid-column-start: 6;
+}
+
+.nine {
+	grid-row-start: 2;
+}
+
+.nine-thirty {
+	grid-row-start: 3;
+}
+
+.ten {
+	grid-row-start: 4;
+}
+
+.ten-thirty {
+	grid-row-start: 5;
+}
+
+.eleven {
+	grid-row-start: 6;
+}
+
+.eleven-thirty {
+	grid-row-start: 7;
+}
+
+.twelve {
+	grid-row-start: 8;
+}
+
+.twelve-thirty {
+	grid-row-start: 9;
+}
+
+.thirteen {
+	grid-row-start: 10;
+}
+
+.thirteen-thirty {
+	grid-row-start: 11;
+}
+
+.fourteen {
+	grid-row-start: 12;
+}
+
+.fourteen-thirty {
+	grid-row-start: 13;
+}
+
+.fifteen {
+	grid-row-start: 14;
+}
+
+.fifteen-thirty {
+	grid-row-start: 15;
+}
+
+.sixteen {
+	grid-row-start: 16;
+}
+
+.sixteen-thirty {
+	grid-row-start: 17;
+}
+
+.seventeen {
+	grid-row-start: 18;
+}
+
+.seventeen-thirty {
+	grid-row-start: 19;
+}
+
+
+.eighteen {
+	grid-row-start: 20;
+}
+
+.eighteen-thirty {
+	grid-row-start: 21;
+}
+
+.nineteen {
+	grid-row-start: 22;
+}
+
+.nineteen-thirty {
+	grid-row-start: 23;
+}
+
+.twenty {
+	grid-row-start: 24;
+}
+
+.twenty-thirty {
+	grid-row-start: 25;
+}
+
+.twenty-one {
+	grid-row-start: 26;
+}
+
+.twenty-one-thirty {
+	grid-row-start: 27;
+}

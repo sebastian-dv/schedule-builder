@@ -1,10 +1,15 @@
 import './App.css'
+import Calendar from './Calendar'
+import SearchBar from './SearchBar'
 
 function App() {
 
   return (
     <>
-			<div>schedule builder</div>
+      <SearchBar />
+			<div></div>
+			<br />
+			<Calendar showMore={false} />
     </>
   )
 }
