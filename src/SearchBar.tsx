@@ -64,7 +64,7 @@ export default function SearchBar() {
 		const result = [];
 		for (var i = 0; i < classes.length; i++) {
 			let title = removeAccents(classes[i]['title']).toLowerCase();
-			if (title.indexOf(input)) {
+			if (title.indexOf(input) != -1) {
 				result.push(classes[i]);
 			}
 		}
@@ -77,7 +77,7 @@ export default function SearchBar() {
 		const result = [];
 		for (var i = 0; i < classes.length; i++) {
 			let code = classes[i]['code'];
-			if (code.indexOf(input)) {
+			if (code.indexOf(input) != -1) {
 				result.push(classes[i]);
 			}
 		}
@@ -86,7 +86,24 @@ export default function SearchBar() {
   };
 
   const searchMajor = () => {
+    console.log("search by major");
+    console.log('Input: ' + input);
     const result = [];
+    for(const campusKey in data) {
+        const campus = data[campusKey];
+        for (const majorKey in campus) {
+            let majorName = removeAccents(majorKey).toLowerCase();
+            if(majorName.indexOf(input) != -1) {
+                const courses = campus[majorKey];
+                const major = {title:majorKey,courses: courses};
+                result.push(major);
+            }
+        }
+    }
+
+    console.log(result);
+    return result;
+
   };
 
 
