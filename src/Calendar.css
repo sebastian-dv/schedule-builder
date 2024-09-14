@@ -1,6 +1,6 @@
 .calendar {
 	display: grid;
-	grid-template-columns: 45px repeat(5, 1fr);
+	grid-template-columns: [time] auto [lun] 1fr [mar] 1fr [mie] 1fr [jue] 1fr [vie] 1fr [end-col];
 	width: 900px;
 	border-radius: 5px;
 	background-color: grey;
@@ -9,12 +9,27 @@
 
 .large-calendar {
 	height: 1000px;
-	grid-template-rows: 20px repeat(26, 1fr);
+	/*grid-template-rows: 20px repeat(26, 1fr);*/
 }
 
 .small-calendar {
 	height: 600px;
-	grid-template-rows: 20px repeat(13, 1fr);
+	grid-template-rows:     
+	[day]  auto
+    [_0900]  1fr
+    [_0930]  1fr
+    [_1000]  1fr 
+    [_1030]  1fr
+    [_1100]  1fr
+    [_1130]  1fr 
+    [_1200]  1fr 
+    [_1230]  1fr 
+    [_1300]  1fr 
+    [_1330]  1fr 
+    [_1400]  1fr 
+    [_1430]  1fr 
+    [_1500]  1fr 
+    [end-row];
 }
 
 .hour-line {
@@ -28,127 +43,147 @@
 	font-size: 10px;
 }
 
-.lunes {
-	grid-column-start: 2;
+.lun {
+	grid-area: day / lun;
 }
 
-.martes {
-	grid-column-start: 3;
+.mar {
+	grid-area: day / mar;
 }
 
-.miercoles {
-	grid-column-start: 4;
+.mie {
+	grid-area: day / mie;
 }
 
-.jueves {
-	grid-column-start: 5;
+.jue {
+	grid-area: day / jue;
 }
 
-.viernes {
-	grid-column-start: 6;
+.vie {
+	grid-area: day / vie;
 }
 
-.nine {
-	grid-row-start: 2;
+._0900 {
+	grid-area: _0900 / time;
 }
 
-.nine-thirty {
-	grid-row-start: 3;
+._0930 {
+	grid-area: _0930 / time;
 }
 
-.ten {
-	grid-row-start: 4;
+._1000 {
+	grid-area: _1000 / time;
 }
 
-.ten-thirty {
-	grid-row-start: 5;
+._1030 {
+	grid-area: _1030 / time;
 }
 
-.eleven {
-	grid-row-start: 6;
+._1100 {
+	grid-area: _1100 / time;
 }
 
-.eleven-thirty {
-	grid-row-start: 7;
+._1130 {
+	grid-area: _1130 / time;
 }
 
-.twelve {
-	grid-row-start: 8;
+._1200 {
+	grid-area: _1200 / time;
 }
 
-.twelve-thirty {
-	grid-row-start: 9;
+._1230 {
+	grid-area: _1230 / time;
 }
 
-.thirteen {
-	grid-row-start: 10;
+._1300 {
+	grid-area: _1300 / time;
 }
 
-.thirteen-thirty {
-	grid-row-start: 11;
+._1330 {
+	grid-area: _1330 / time;
 }
 
-.fourteen {
-	grid-row-start: 12;
+._1400 {
+	grid-area: _1400 / time;
 }
 
-.fourteen-thirty {
-	grid-row-start: 13;
+._1430 {
+	grid-area: _1430 / time;
 }
 
-.fifteen {
-	grid-row-start: 14;
+._1500 {
+	grid-area: _1500 / time;
 }
 
-.fifteen-thirty {
-	grid-row-start: 15;
+._1530 {
+	grid-area: _1530 / time;
 }
 
-.sixteen {
-	grid-row-start: 16;
+._1600 {
+	grid-area: _1600 / time;
 }
 
-.sixteen-thirty {
-	grid-row-start: 17;
+._1630 {
+	grid-area: _1630 / time;
 }
 
-.seventeen {
-	grid-row-start: 18;
+._1700 {
+	grid-area: _1700 / time;
 }
 
-.seventeen-thirty {
-	grid-row-start: 19;
+._1730 {
+	grid-area: _1730 / time;
 }
 
 
-.eighteen {
-	grid-row-start: 20;
+._1800 {
+	grid-area: _1800 / time;
 }
 
-.eighteen-thirty {
-	grid-row-start: 21;
+._1830 {
+	grid-area: _1830 / time;
 }
 
-.nineteen {
-	grid-row-start: 22;
+._1900 {
+	grid-area: _1900 / time;
 }
 
-.nineteen-thirty {
-	grid-row-start: 23;
+._1930 {
+	grid-area: _1930 / time;
 }
 
-.twenty {
-	grid-row-start: 24;
+._2000 {
+	grid-area: _2000 / time;
 }
 
-.twenty-thirty {
-	grid-row-start: 25;
+._2030 {
+	grid-area: _2030 / time;
 }
 
-.twenty-one {
-	grid-row-start: 26;
+._2100 {
+	grid-area: _2100 / time;
 }
 
-.twenty-one-thirty {
-	grid-row-start: 27;
+._2130 {
+	grid-area: _2130 / time;
 }
+
+.boxOne {
+	grid-column-end: 5;
+	grid-row-end: 11;
+}
+
+.wrapper {
+	display: grid;
+  }
+
+  .item {
+	padding: 10px;
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+	border-right: 1px solid black;
+	border-left: 1px solid black;
+	/* with flexbox:
+	width: calc(50% - 21px);
+	*/
+  }
