@@ -1,13 +1,15 @@
 import axios from "axios";
 import { useState, useEffect, ChangeEvent } from "react";
 import { GETAFE_DATA, LEGANES_DATA } from "./Constants";
+import Results from "./Results";
 
 export default function SearchBar() {
   const [data, setData] = useState<any>({});
   const [input, setInput] = useState<string>("");
   const [classes, setClasses] = useState<any>();
-
+  const [resultsActive, setResultsActive] = useState<boolean>(false);
   const [searchBy, setSearchBy] = useState<string>("class");
+  const [searchResult, setSearchResult] = useState<any>();
   const searchParam = [
     { value: "class", label: "Class" },
     { value: "code", label: "Code" },
@@ -41,16 +43,20 @@ export default function SearchBar() {
 
   const search = () => {
     if (input.trim() !== "") {
+      setResultsActive(true);
       console.log("attempt search");
       switch (searchBy) {
         case "class": {
-          return searchClass();
+           setSearchResult(searchClass());
+           break;
         }
         case "code": {
-          return searchCode();
+          setSearchResult(searchCode());
+          break;
         }
         case "major": {
-          return searchMajor();
+          setSearchResult(searchMajor());
+          break;
         }
       }
     } else {
@@ -158,6 +164,12 @@ export default function SearchBar() {
           />
           <button onClick={search}>Search</button>
         </div>
+      </div>
+
+      <div>
+        <Results classes={searchResult} isActive={resultsActive}>
+
+        </Results>
       </div>
     </>
   );
