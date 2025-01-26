@@ -10,6 +10,15 @@ export default function SearchBar() {
   const [resultsActive, setResultsActive] = useState<boolean>(false);
   const [searchBy, setSearchBy] = useState<string>("class");
   const [searchResult, setSearchResult] = useState<any>();
+
+  const [addedCourses, setAddedCourses] = useState<any>();
+
+  // Passed to Results component, so when course is added, this runs and addedCourses is updated
+  const resultsData = (results:any) => {
+    setAddedCourses(results);
+    console.log(addedCourses);
+  }
+
   const searchParam = [
     { value: "class", label: "Class" },
     { value: "code", label: "Code" },
@@ -167,7 +176,7 @@ export default function SearchBar() {
       </div>
 
       <div>
-        <Results classes={searchResult} isActive={resultsActive}>
+        <Results classes={searchResult} addedCourses={resultsData} isActive={resultsActive}>
 
         </Results>
       </div>
