@@ -5,10 +5,16 @@ export default function Results({classes, isActive} : {classes:any, isActive:boo
 		<>
 		<div>
 			{isActive ? (
-				<p>Results displayed here</p>
+				classes.map((course:any) => (
+					<tr>
+						<td>{course.code}</td>
+						<td>{course.title}</td>
+						<td>{course.credits}</td>
+					</tr>
+				))
 			) : (
-				<p>No</p>
-			)}
+					<p>No</p>
+				)}
 
 		</div>
 		</>
