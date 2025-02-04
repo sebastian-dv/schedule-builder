@@ -3,17 +3,15 @@ import { WEEKDAYS, TIMES } from './Constants';
 import { useEffect, useState } from 'react';
 import Course from './Course'
 
-export default function Calendar({showMore}: {showMore: boolean}) {
+export default function Calendar({showMore, addedCourses}: {showMore: boolean, addedCourses:any}) {
 
 	let [unclean, setUnclean] = useState<any>([{}]);
 	let [courses, setCourses] = useState<any>([{}])
 
 	useEffect( () => {
 		let test1 = [{day: "Vie", startTime: "11:30",endTime: "15:00"}, {day: "Lun", startTime: "09:30",endTime: "12:00"}]
-
-		setUnclean(test1);
-
 		
+		setUnclean(addedCourses);
 	}, []);
 
 	useEffect( () => {
