@@ -1,49 +1,59 @@
+import { useState } from "react";
 
 export default function Results({classes, addedCourses, isActive} : {classes:any, addedCourses:any, isActive:boolean}) {
 
-	const Sections = (course:any) => {
+	const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
 
-		return (
-			<table>
-			<tbody>
-				{(course && Object.keys(course).length > 1) ? (
-					<tr>
-						{Object.keys(course.groups).map((item:any, i:any) => (
-							<td>{item.language}</td>
-						))} 
-					</tr>
-				) : (
-					<tr>
-						<td>No</td>
-					</tr>
-				)}
-			</tbody>
-			</table>
-		)
+	const toggleExpand = (code: string) => {
+		setExpanded((prev) => ({ ...prev, [code]: !prev[code] }));
 	}
 
 	return (
 		<>
 		<div>
-			{isActive ? (
+			{isActive && (
 				classes.map((course:any) => (
 					<table>
 					<tbody>
 					<tr className={course.code}>
+						<td>
+							<button onClick={() => toggleExpand(course.code)}>
+								{expanded[course.code] ? "▼" : "▶"}
+							</button>
+                        </td>
 						<td>{course.code}</td>
 						<td>{course.title}</td>
 						<td>{course.credits}</td>
-						<td><button onClick={() => addedCourses(course)}>Add</button></td>
-						<td><Sections course={course}></Sections></td>
 					</tr>
+
+					{expanded[course.code] && course.groups && (
+					<tr>
+						<td colSpan={5}>
+							<table>
+								<tbody>
+									{Object.values(course.groups).map((section: any, index: number) => (
+										<tr key={index}>
+											<td>{Object.keys(course.groups)[index]}</td>
+											<td>{section.language}</td>
+											<td>{section.professor}</td>
+											<td><button onClick={() => addedCourses(section)}>Add</button></td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+						</td>
+					</tr>
+					)}
 					</tbody>
-					</table>
+				</table>
 				))
-			) : (
-					<p>No</p>
-				)}
+			)}
 
 		</div>
 		</>
 	)
 }
+
+
+
+
