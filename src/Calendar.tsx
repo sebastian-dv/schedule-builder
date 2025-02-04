@@ -46,27 +46,26 @@ export default function Calendar({showMore, addedCourses}: {showMore: boolean, a
 				{
 
 					WEEKDAYS.map((weekday) => (
-						<>
-							<div className={weekday.class} >
-								{weekday.day}
-							</div>
-						</>
+						<div className={weekday.class} key={weekday.day} >
+							{weekday.day}
+						</div>
 					))
 				}
 				{
 					showMore ?
-						TIMES.map((time) => (
-							<div className={`size ${time.class}`} >
+						TIMES.map((time, index) => (
+							<div className={`size ${time.class}`} key={index} >
 								{time.time}
 							</div>
 						)) 
 					:
-						TIMES.slice(0, 13).map((time) => (
-							<div className={`size ${time.class}`} >
+						TIMES.slice(0, 13).map((time, index) => (
+							<div className={`size ${time.class}`} key={index} >
 								{time.time}
 							</div>
 						))
 				}
+
 				{
 					courses.map((c:any) => {
 						console.log("mapping");

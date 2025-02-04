@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import Calendar from './Calendar'
-import leganesData from '../public/leganes-data.json' 
-console.log(leganesData)
+import SearchBar from './SearchBar'
 
 function App() {
 
@@ -10,7 +9,9 @@ function App() {
 
   return (
     <>
-			<div>schedule builder</div>
+      <SearchBar />
+			<div></div>
+			<br />
 			<Calendar showMore={false} />
     </>
   )
