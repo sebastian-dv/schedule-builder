@@ -9,7 +9,34 @@
 
 .large-calendar {
 	height: 1000px;
-	/*grid-template-rows: 20px repeat(26, 1fr);*/
+	grid-template-rows:     
+	[day] auto
+	[_0900] 1fr
+	[_0930] 1fr
+	[_1000] 1fr 
+	[_1030] 1fr
+	[_1100] 1fr
+	[_1130] 1fr 
+	[_1200] 1fr 
+	[_1230] 1fr 
+	[_1300] 1fr 
+	[_1330] 1fr 
+	[_1400] 1fr 
+	[_1430] 1fr 
+	[_1500] 1fr 
+	[_1530] 1fr 
+	[_1600] 1fr 
+	[_1630] 1fr 
+	[_1700] 1fr 
+	[_1730] 1fr 
+	[_1800] 1fr 
+	[_1830] 1fr 
+	[_1900] 1fr 
+	[_1930] 1fr 
+	[_2000] 1fr 
+	[_2030] 1fr 
+	[_2100] 1fr 
+	[end-row];
 }
 
 .small-calendar {
@@ -134,7 +161,6 @@
 ._1730 {
 	grid-area: _1730 / time;
 }
-
 
 ._1800 {
 	grid-area: _1800 / time;
