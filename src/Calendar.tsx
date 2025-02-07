@@ -16,7 +16,9 @@ export default function Calendar({showMore, addedCourses}: {showMore: boolean, a
 
 	useEffect( () => {
 		console.log("cleaning")
-		setCourses(cleanSched(unclean))
+		if(unclean) {
+			setCourses(cleanSched(unclean))
+		}
 	}, [unclean]);
 
 
