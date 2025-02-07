@@ -12,7 +12,7 @@ export default function Calendar({showMore, addedCourses}: {showMore: boolean, a
 		let test1 = [{day: "Vie", startTime: "11:30",endTime: "15:00"}, {day: "Lun", startTime: "09:30",endTime: "12:00"}]
 		
 		setUnclean(addedCourses);
-	}, []);
+	}, [addedCourses]);
 
 	useEffect( () => {
 		console.log("cleaning")
@@ -23,18 +23,18 @@ export default function Calendar({showMore, addedCourses}: {showMore: boolean, a
 
 
 	const cleanSched = (sched:any) => {
-		sched.map((course:any) => {
-			if(course && course.day && course.startTime && course.endTime) {
+		sched.flat().map((course:any) => {
+			if(course && course.day && course["start-time"] && course['end-time']) {
 				course['day'] = course['day'].toLowerCase();
-				let startTime = course['startTime'].replace(':','');
-				course['startTime'] = '_'.concat(startTime);
+				let startTime = course['start-time'].replace(':','');
+				course['start-time'] = '_'.concat(startTime);
 		   
-			   let endTime = course['endTime'].replace(':','');
-			   course['endTime'] = '_'.concat(endTime);
+			   let endTime = course['end-time'].replace(':','');
+			   course['end-time'] = '_'.concat(endTime);
 			}
 
 			else {
-				console.log("Tried to access invalud data while cleaning")
+				console.log("Tried to access invalid data while cleaning")
 			}
 
 		})
@@ -67,13 +67,27 @@ export default function Calendar({showMore, addedCourses}: {showMore: boolean, a
 							</div>
 						))
 				}
-
+				{console.log(courses)}
 				{
-					courses.map((c:any) => {
-						console.log("mapping");
-						console.log(c);
-						return <Course day={c.day} startTime={c.startTime} endTime={c.endTime}/>
+					courses.flat().map((c: any, index: number) => (
+						<Course 
+						  key={index} 
+						  day={c.day} 
+						  startTime={c["start-time"]} 
+						  endTime={c["end-time"]} 
+						/>
+					  ))
+
+					/*
+					courses.map((course:any) => {
+
+						course.map((d:any) => (
+							<Course key={d.startTime} day={d.day} startTime={d.startTime} endTime={d.endTime} />
+						))
 					})
+					*/
+					
+
 					
 				}
 			</div>

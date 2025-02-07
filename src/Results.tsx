@@ -36,7 +36,7 @@ export default function Results({classes, addedCourses, isActive} : {classes:any
 											<td>{Object.keys(course.groups)[index]}</td>
 											<td>{section.language}</td>
 											<td>{section.professor}</td>
-											<td><button onClick={() => addedCourses(section)}>Add</button></td>
+											<td><button onClick={() => addedCourses(section.schedule)}>Add</button></td>
 										</tr>
 									))}
 								</tbody>

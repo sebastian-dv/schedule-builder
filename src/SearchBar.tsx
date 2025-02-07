@@ -3,7 +3,7 @@ import { useState, useEffect, ChangeEvent } from "react";
 import { GETAFE_DATA, LEGANES_DATA } from "./Constants";
 import Results from "./Results";
 
-export default function SearchBar() {
+export default function SearchBar({addedCourses} : {addedCourses:any}) {
   const [data, setData] = useState<any>({});
   const [input, setInput] = useState<string>("");
   const [classes, setClasses] = useState<any>();
@@ -11,12 +11,12 @@ export default function SearchBar() {
   const [searchBy, setSearchBy] = useState<string>("class");
   const [searchResult, setSearchResult] = useState<any>();
 
-  const [addedCourses, setAddedCourses] = useState<any>();
+  //const [addedCourses, setAddedCourses] = useState<any>();
 
   // Passed to Results component, so when course is added, this runs and addedCourses is updated
   const resultsData = (results:any) => {
-    setAddedCourses(results);
     console.log(addedCourses);
+    addedCourses((prev:any) => [...prev, results]);
   }
 
   const searchParam = [

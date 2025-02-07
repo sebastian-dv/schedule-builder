@@ -4,10 +4,10 @@ export default function Course({day, startTime, endTime}: {day:string, startTime
 
     useEffect( () => {
         console.log("IN course")
-        console.log(day)
+        console.log(startTime)
     }, [])
 
-    const style:any = {"gridColumn": day, "gridRow": startTime + ' / ' + endTime}
+    const style:any = {"gridRow": startTime + ' / ' + endTime, "gridColumn": day}
 
 
 	return (
