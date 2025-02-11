@@ -14,10 +14,17 @@ export default function SearchBar({addedCourses} : {addedCourses:any}) {
   //const [addedCourses, setAddedCourses] = useState<any>();
 
   // Passed to Results component, so when course is added, this runs and addedCourses is updated
-  const resultsData = (results:any) => {
-    console.log(addedCourses);
-    addedCourses((prev:any) => [...prev, results]);
-  }
+  const resultsData = (results: any) => {
+    addedCourses((prev: any) => {
+        const exists = prev.some((course:any) => course.code === results.code);
+        
+        if (exists) {
+            return prev.filter((course:any) => course.code !== results.code); // Remove course
+        } else {
+            return [...prev, results]; // Add course
+        }
+    });
+};
 
   const searchParam = [
     { value: "class", label: "Class" },

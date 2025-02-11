@@ -5,13 +5,14 @@ import Course from './Course'
 
 export default function Calendar({showMore, addedCourses}: {showMore: boolean, addedCourses:any}) {
 
-	let [unclean, setUnclean] = useState<any>([{}]);
-	let [courses, setCourses] = useState<any>([{}])
+	let [unclean, setUnclean] = useState<any>([]);
+	let [courses, setCourses] = useState<any>([])
 
 	useEffect( () => {
-		let test1 = [{day: "Vie", startTime: "11:30",endTime: "15:00"}, {day: "Lun", startTime: "09:30",endTime: "12:00"}]
+		//let test1 = [{day: "Vie", startTime: "11:30",endTime: "15:00"}, {day: "Lun", startTime: "09:30",endTime: "12:00"}]
 		
 		setUnclean(addedCourses);
+
 	}, [addedCourses]);
 
 	useEffect( () => {
@@ -23,74 +24,49 @@ export default function Calendar({showMore, addedCourses}: {showMore: boolean, a
 
 
 	const cleanSched = (sched:any) => {
-		sched.flat().map((course:any) => {
+		return sched.flat().map((course:any) => {
 			if(course && course.day && course["start-time"] && course['end-time']) {
-				course['day'] = course['day'].toLowerCase();
-				let startTime = course['start-time'].replace(':','');
-				course['start-time'] = '_'.concat(startTime);
-		   
-			   let endTime = course['end-time'].replace(':','');
-			   course['end-time'] = '_'.concat(endTime);
+				if(!course['start-time'].includes('_') && !course['end-time'].includes('_')){ // only clean if data is unclean; ie. course hasn't been added before
+					return {
+						...course,
+						day: course.day.toLowerCase(),
+						"start-time": "_" + course["start-time"].replace(":", ""),
+						"end-time": "_" + course["end-time"].replace(":", ""),
+					};
+				}
 			}
-
 			else {
 				console.log("Tried to access invalid data while cleaning")
 			}
-
+			return course;
 		})
-
-		return sched;
 		}
 
 	return (
-		<>
-			<div className={'calendar ' + (showMore ? 'large-calendar' : 'small-calendar')} >
-				{
+        <div className={'calendar ' + (showMore ? 'large-calendar' : 'small-calendar')}>
+            {WEEKDAYS.map((weekday) => (
+                <div className={weekday.class} key={weekday.day}>
+                    {weekday.day}
+                </div>
+            ))}
 
-					WEEKDAYS.map((weekday) => (
-						<div className={weekday.class} key={weekday.day} >
-							{weekday.day}
-						</div>
-					))
-				}
-				{
-					showMore ?
-						TIMES.map((time, index) => (
-							<div className={`size ${time.class}`} key={index} >
-								{time.time}
-							</div>
-						)) 
-					:
-						TIMES.slice(0, 13).map((time, index) => (
-							<div className={`size ${time.class}`} key={index} >
-								{time.time}
-							</div>
-						))
-				}
-				{console.log(courses)}
-				{
-					courses.flat().map((c: any, index: number) => (
-						<Course 
-						  key={index} 
-						  day={c.day} 
-						  startTime={c["start-time"]} 
-						  endTime={c["end-time"]} 
-						/>
-					  ))
+            {showMore
+                ? TIMES.map((time, index) => (
+                      <div className={`size ${time.class}`} key={index}>
+                          {time.time}
+                      </div>
+                  ))
+                : TIMES.slice(0, 13).map((time, index) => (
+                      <div className={`size ${time.class}`} key={index}>
+                          {time.time}
+                      </div>
+                  ))}
 
-					/*
-					courses.map((course:any) => {
-
-						course.map((d:any) => (
-							<Course key={d.startTime} day={d.day} startTime={d.startTime} endTime={d.endTime} />
-						))
-					})
-					*/
-					
-
-					
-				}
-			</div>
-		</>
-	)
+            {courses.length > 0 && (
+                courses.flat().map((c: any, index: number) => (
+                    <Course key={index} day={c.day} startTime={c["start-time"]} endTime={c["end-time"]} />
+                ))
+            )}
+        </div>
+    );
 }

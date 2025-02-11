@@ -3,9 +3,18 @@ import { useState } from "react";
 export default function Results({classes, addedCourses, isActive} : {classes:any, addedCourses:any, isActive:boolean}) {
 
 	const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
+	const [added, setAdded] = useState<{ [key: string]: boolean}>({});
 
 	const toggleExpand = (code: string) => {
 		setExpanded((prev) => ({ ...prev, [code]: !prev[code] }));
+	}
+
+	const toggleAdded = (code: string, schedule: any) => {
+		addedCourses(schedule);
+        setAdded((prevAdded) => ({
+            ...prevAdded,
+            [code]: !prevAdded[code], // Toggle based on previous state
+        }));
 	}
 
 	return (
@@ -36,7 +45,11 @@ export default function Results({classes, addedCourses, isActive} : {classes:any
 											<td>{Object.keys(course.groups)[index]}</td>
 											<td>{section.language}</td>
 											<td>{section.professor}</td>
-											<td><button onClick={() => addedCourses(section.schedule)}>Add</button></td>
+											<td>
+												<button onClick={() => toggleAdded(course.code, section.schedule)}>
+													{added[course.code] ? "Remove" : "Add" }
+												</button>
+											</td>
 										</tr>
 									))}
 								</tbody>
