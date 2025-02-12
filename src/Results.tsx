@@ -9,12 +9,18 @@ export default function Results({classes, addedCourses, isActive} : {classes:any
 		setExpanded((prev) => ({ ...prev, [code]: !prev[code] }));
 	}
 
-	const toggleAdded = (code: string, schedule: any) => {
-		addedCourses(schedule);
+	const toggleAdded = (courseCode: string, section: any, groupNumber : any) => {
+
+		const courseKey = `${courseCode}-${groupNumber}`;
+
+		const schedule = {...section.schedule, code: courseKey}
+
         setAdded((prevAdded) => ({
             ...prevAdded,
-            [code]: !prevAdded[code], // Toggle based on previous state
+            [courseKey]: !prevAdded[courseKey], // Toggle based on previous state
         }));
+
+		addedCourses(schedule);
 	}
 
 	return (
@@ -40,18 +46,23 @@ export default function Results({classes, addedCourses, isActive} : {classes:any
 						<td colSpan={5}>
 							<table>
 								<tbody>
-									{Object.values(course.groups).map((section: any, index: number) => (
-										<tr key={index}>
-											<td>{Object.keys(course.groups)[index]}</td>
-											<td>{section.language}</td>
-											<td>{section.professor}</td>
-											<td>
-												<button onClick={() => toggleAdded(course.code, section.schedule)}>
-													{added[course.code] ? "Remove" : "Add" }
-												</button>
-											</td>
-										</tr>
-									))}
+									{Object.keys(course.groups).map((groupName : string, index : any) => {
+										
+										const groupNumber = groupName.replace("Grupo ", ""); // Extract the number
+										const section = course.groups[groupName];
+										return (
+											<tr key={index}>
+												<td>{groupNumber}</td>
+												<td>{section.language}</td>
+												<td>{section.professor}</td>
+												<td>
+													<button onClick={() => toggleAdded(course.code, section, groupNumber)}>
+														{added[course.code + "-" + groupNumber] ? "Remove" : "Add"}
+													</button>
+												</td>
+											</tr>
+										);
+									})}
 								</tbody>
 							</table>
 						</td>
