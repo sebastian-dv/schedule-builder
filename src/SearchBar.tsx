@@ -58,6 +58,13 @@ export default function SearchBar({addedCourses} : {addedCourses:any}) {
 		return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 	}
 
+  // Handle Enter key press
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      search();
+    }
+  };
+
   const search = () => {
     if (input.trim() !== "") {
       setResultsActive(true);
@@ -94,6 +101,7 @@ export default function SearchBar({addedCourses} : {addedCourses:any}) {
     console.log(result);
     return result;
   };
+  
 
   const searchCode = () => {
     console.log("search by code");
@@ -128,8 +136,6 @@ export default function SearchBar({addedCourses} : {addedCourses:any}) {
     return result;
 
   };
-
-
 
   useEffect(() => {
     axios
@@ -186,6 +192,7 @@ export default function SearchBar({addedCourses} : {addedCourses:any}) {
             value={input}
             placeholder={`Search by ${searchBy}...`}
             type="text"
+            onKeyPress={handleKeyPress}
           />
           <button 
             className="search-button" 
