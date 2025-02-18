@@ -15,6 +15,7 @@ export default function SearchBar({addedCourses} : {addedCourses:any}) {
 
   // Passed to Results component, so when course is added, this runs and addedCourses is updated
   const resultsData = (results: any) => {
+    console.log(results);
     addedCourses((prev: any) => {
         const exists = prev.some((course:any) => course.code === results.code);
         
@@ -129,6 +130,7 @@ export default function SearchBar({addedCourses} : {addedCourses:any}) {
   };
 
 
+
   useEffect(() => {
     axios
       .all([axios.get(GETAFE_DATA), axios.get(LEGANES_DATA)])
@@ -151,42 +153,57 @@ export default function SearchBar({addedCourses} : {addedCourses:any}) {
   }, [data]);
 
   return (
-    <>
-      <div>
-        <div>
-          <span>Search By</span>
-          {searchParam.map((search) => (
-            <div key={search.value}>
-              <input
-                name="search"
-                type="radio"
-                value={search.value}
-                checked={searchBy === search.value}
-                onChange={(e) => setSearchBy(e.target.value)}
-              />
-              <label htmlFor={search.value}> {search.label} </label>
-            </div>
-          ))}
+    <div className="search-container">
+      <div className="search-header">
+        <h2>Course Search</h2>
+        <p>Find and add courses to your schedule</p>
+      </div>
+
+      <div className="search-options">
+        <div className="search-by-container">
+          <span className="search-label">Search By:</span>
+          <div className="search-radio-group">
+            {searchParam.map((search) => (
+              <div className="search-radio-option" key={search.value}>
+                <input
+                  id={`search-${search.value}`}
+                  name="search"
+                  type="radio"
+                  value={search.value}
+                  checked={searchBy === search.value}
+                  onChange={(e) => setSearchBy(e.target.value)}
+                />
+                <label htmlFor={`search-${search.value}`}>{search.label}</label>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <br />
-
-        <div>
+        <div className="search-input-container">
           <input
+            className="search-input"
             onChange={inputHandler}
             value={input}
-            placeholder="Search for classes"
+            placeholder={`Search by ${searchBy}...`}
             type="text"
           />
-          <button onClick={search}>Search</button>
+          <button 
+            className="search-button" 
+            onClick={search}
+          >
+
+          </button>
         </div>
       </div>
 
-      <div>
-        <Results classes={searchResult} addedCourses={resultsData} isActive={resultsActive}>
-
-        </Results>
+      <div className="search-results">
+      
+          <Results 
+            classes={searchResult} 
+            addedCourses={resultsData} 
+            isActive={resultsActive}
+          />
       </div>
-    </>
+    </div>
   );
 }
