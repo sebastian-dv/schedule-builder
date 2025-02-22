@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect, ChangeEvent } from "react";
 import { GETAFE_DATA, LEGANES_DATA } from "./Constants";
 import Results from "./Results";
+import "./SearchBar.css"; 
 
 export default function SearchBar({addedCourses} : {addedCourses:any}) {
   const [data, setData] = useState<any>({});
@@ -10,6 +11,7 @@ export default function SearchBar({addedCourses} : {addedCourses:any}) {
   const [resultsActive, setResultsActive] = useState<boolean>(false);
   const [searchBy, setSearchBy] = useState<string>("class");
   const [searchResult, setSearchResult] = useState<any>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   //const [addedCourses, setAddedCourses] = useState<any>();
 
@@ -67,22 +69,28 @@ export default function SearchBar({addedCourses} : {addedCourses:any}) {
 
   const search = () => {
     if (input.trim() !== "") {
+      setIsLoading(true);
       setResultsActive(true);
       console.log("attempt search");
-      switch (searchBy) {
-        case "class": {
-           setSearchResult(searchClass());
-           break;
+      setTimeout(() => {
+        switch (searchBy) {
+
+          case "class": {
+
+            setSearchResult(searchClass());
+            break;
+          }
+          case "code": {
+            setSearchResult(searchCode());
+            break;
+          }
+          case "major": {
+            setSearchResult(searchMajor());
+            break;
+          }
         }
-        case "code": {
-          setSearchResult(searchCode());
-          break;
-        }
-        case "major": {
-          setSearchResult(searchMajor());
-          break;
-        }
-      }
+        setIsLoading(false);
+      }, 300); // Small delay for loading state to be visible
     } else {
       console.log("no input");
     }
@@ -136,26 +144,30 @@ export default function SearchBar({addedCourses} : {addedCourses:any}) {
     return result;
 
   };
-
   useEffect(() => {
+    setIsLoading(true);
     axios
       .all([axios.get(GETAFE_DATA), axios.get(LEGANES_DATA)])
       .then(
         axios.spread((getafe, leganes) => {
-         setData({
+          setData({
             getafe: getafe.data,
             leganes: leganes.data,
           });
+          setIsLoading(false);
         })
       )
       .catch((err) => {
         console.log(err);
+        setIsLoading(false);
       });
-
   }, []);
 
-  useEffect( () => { // getClasses and set them once above useEffect has setData
-    setClasses(getClasses());
+  useEffect(() => {
+    // getClasses and set them once above useEffect has setData
+    if (Object.keys(data).length > 0) {
+      setClasses(getClasses());
+    }
   }, [data]);
 
   return (
@@ -197,19 +209,26 @@ export default function SearchBar({addedCourses} : {addedCourses:any}) {
           <button 
             className="search-button" 
             onClick={search}
+            disabled={isLoading}
           >
-
+            {isLoading ? "Searching..." : "Search"}
           </button>
         </div>
       </div>
 
       <div className="search-results">
-      
+        {isLoading ? (
+          <div className="loading-indicator">
+            <div className="spinner"></div>
+            <p>Loading courses...</p>
+          </div>
+        ) : (
           <Results 
             classes={searchResult} 
             addedCourses={resultsData} 
             isActive={resultsActive}
           />
+        )}
       </div>
     </div>
   );
