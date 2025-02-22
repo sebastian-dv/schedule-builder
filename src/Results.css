@@ -1,11 +1,191 @@
+/* Results Container */
+.results-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-td {
+/* Course Table Styling */
+.course-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.course-table td {
+    padding: 12px 15px;
     text-align: left;
 }
 
-tr {
+.course-row {
+    background: white;
+    transition: background-color 0.2s;
+}
+
+.course-row:hover {
+    background: #f5f9ff;
+}
+
+.course-code {
+    font-weight: bold;
+    color: #007bff;
+    width: 15%;
+}
+
+.course-title {
+    width: 55%;
+    font-weight: 500;
+}
+
+.course-credits {
+    width: 15%;
+    text-align: right;
+    color: #555;
+}
+
+/* Expand/Collapse Button */
+.expand-btn {
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.expand-btn button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
-    text-align: left;
+    border-radius: 50%;
+    transition: background-color 0.2s, transform 0.2s;
+    color: #6b7280;
+}
+
+.expand-btn button:hover {
+    background-color: #f0f0f0;
+}
+
+/* Group Details */
+.group-details td {
+    padding: 0;
+}
+
+.group-table-container {
+    padding: 0 15px 15px 80px; /* Significantly increased left padding for more indentation */
+    background: #f8fafd;
+    border-top: 1px solid #edf2f7;
+    position: relative;
+}
+
+/* Add a visual indicator for the indentation */
+.group-table-container::before {
+    content: '';
+    position: absolute;
+    left: 40px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #e0e7ff;
+}
+
+.group-table {
+    width: 90%; /* Reduced width to enhance indentation effect */
+    border-collapse: collapse;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-left: auto; /* Additional indentation effect */
+}
+
+.group-table tbody {
+    background-color: white;
+}
+
+.group-row {
+    border-bottom: 1px solid #eaedf0;
+    transition: background-color 0.2s;
+}
+
+.group-row:hover {
+    background-color: #f5f9ff;
+}
+
+.group-row:last-child {
+    border-bottom: none;
+}
+
+.group-row td {
+    padding: 10px 12px;
+}
+
+.group-number {
+    width: 15%;
+    font-weight: 500;
+    color: #374151;
+}
+
+.group-language {
+    width: 20%;
+    color: #4b5563;
+}
+
+.group-professor {
+    width: 45%;
+    color: #4b5563;
+}
+
+/* Add/Remove Button */
+.add-btn {
+    width: 20%;
+    text-align: right;
+}
+
+.add-btn button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.2s, transform 0.1s;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.add-btn button:hover {
+    background: #218838;
+    transform: translateY(-1px);
+}
+
+.add-btn button:active {
+    transform: translateY(0);
+}
+
+.add-btn button.remove {
+    background: #dc3545;
+}
+
+.add-btn button.remove:hover {
+    background: #c82333;
+}
+
+/* Empty state styling */
+.no-results {
+    text-align: center;
+    padding: 30px;
+    color: #6b7280;
+    font-style: italic;
 }
