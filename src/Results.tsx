@@ -25,13 +25,16 @@ export default function Results({classes, addedCourses, isActive} : {classes:any
 
 	return (
 		<div className="results-container">
-			{isActive &&
+			{isActive && classes && classes.length > 0 ? (
 				classes.map((course: any) => (
 					<table key={course.code} className="course-table">
 						<tbody>
 							<tr className="course-row">
 								<td className="expand-btn">
-									<button onClick={() => toggleExpand(course.code)}>
+									<button 
+                                        onClick={() => toggleExpand(course.code)}
+                                        aria-label={expanded[course.code] ? "Collapse course details" : "Expand course details"}
+                                    >
 										{expanded[course.code] ? "▼" : "▶"}
 									</button>
 								</td>
@@ -42,37 +45,44 @@ export default function Results({classes, addedCourses, isActive} : {classes:any
 
 							{expanded[course.code] && course.groups && (
 								<tr className="group-details">
-									<td colSpan={5}>
-										<table className="group-table">
-											<tbody>
-												{Object.keys(course.groups).map((groupName: string, index: any) => {
-													const groupNumber = groupName.replace("Grupo ", "");
-													const section = course.groups[groupName];
+									<td colSpan={4}>
+                                        <div className="group-table-container">
+										    <table className="group-table">
+											    <tbody>
+												    {Object.keys(course.groups).map((groupName: string, index: any) => {
+													    const groupNumber = groupName.replace("Grupo ", "");
+													    const section = course.groups[groupName];
 
-													return (
-														<tr key={index} className="group-row">
-															<td className="group-number">{groupNumber}</td>
-															<td className="group-language">{section.language}</td>
-															<td className="group-professor">{section.professor}</td>
-															<td className="add-btn">
-																<button
-																	className={added[course.code + "-" + groupNumber] ? "remove" : "add"}
-																	onClick={() => toggleAdded(course.code, section, groupNumber)}
-																>
-																	{added[course.code + "-" + groupNumber] ? "Remove" : "Add"}
-																</button>
-															</td>
-														</tr>
-													);
-												})}
-											</tbody>
-										</table>
+													    return (
+														    <tr key={index} className="group-row">
+															    <td className="group-number">{groupNumber}</td>
+															    <td className="group-language">{section.language}</td>
+															    <td className="group-professor">{section.professor}</td>
+															    <td className="add-btn">
+																    <button
+																	    className={added[course.code + "-" + groupNumber] ? "remove" : "add"}
+																	    onClick={() => toggleAdded(course.code, section, groupNumber)}
+																    >
+																	    {added[course.code + "-" + groupNumber] ? "Remove" : "Add"}
+																    </button>
+															    </td>
+														    </tr>
+													    );
+												    })}
+											    </tbody>
+										    </table>
+                                        </div>
 									</td>
 								</tr>
 							)}
 						</tbody>
 					</table>
-				))}
+				))
+			) : isActive ? (
+                <div className="no-results">
+                    <p>No courses found. Try a different search.</p>
+                </div>
+            ) : null}
 		</div>
 	);
 }
