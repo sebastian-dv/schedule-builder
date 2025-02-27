@@ -1,0 +1,75 @@
+.course-item {
+    background-color: #e9f2ff;
+    border-radius: 4px;
+    border: 1px solid #a0c0e8;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 100%;
+  }
+  
+  .course-item:hover {
+    background-color: #d0e4ff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+  
+  .course-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    font-size: 0.8rem;
+  }
+  
+  .course-code {
+    font-weight: bold;
+    color: #2c5282;
+  }
+  
+  .course-lang {
+    background-color: #4a5568;
+    color: white;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 0.7rem;
+  }
+  
+  .course-title {
+    margin: 4px 0;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a365d;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .course-details {
+    margin-top: auto;
+    font-size: 0.8rem;
+    color: #4a5568;
+  }
+  
+  .course-time {
+    margin-bottom: 2px;
+  }
+  
+  .course-professor {
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* For courses that span multiple time slots */
+  .course-item[style*="span 2"] .course-title,
+  .course-item[style*="span 3"] .course-title,
+  .course-item[style*="span 4"] .course-title {
+    font-size: 1.1rem;
+  }
+  

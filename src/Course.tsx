@@ -1,20 +1,39 @@
 import { useEffect } from 'react';
+import './Course.css';
 
-export default function Course({day, startTime, endTime}: {day:string, startTime:string, endTime:string}) {
+export default function Course({title, professor, lang, code, day, startTime, endTime}: {title: string, professor:string, lang:string, code:string, day:string, startTime:string, endTime:string}) {
 
-    useEffect( () => {
-        console.log("IN course")
-        console.log(startTime)
-    }, [])
-
-    const style:any = {"gridRow": startTime + ' / ' + endTime, "gridColumn": day}
-
-
-	return (
-		<>
-			<div className={"item"} style={style} >
-                test
-			</div>
-		</>
-	)
+    const style: any = {
+        "gridRow": startTime + ' / ' + endTime, 
+        "gridColumn": day
+      };
+  
+      // Format the time display (removing underscore and adding colon)
+      const formatTime = (timeStr: string) => {
+        if (!timeStr) return "";
+        const cleanTime = timeStr.replace('_', '');
+        if (cleanTime.length < 4) return cleanTime;
+        return cleanTime.slice(0, 2) + ':' + cleanTime.slice(2);
+      };
+  
+      const displayStartTime = formatTime(startTime);
+      const displayEndTime = formatTime(endTime);
+  
+      return (
+        <div className="course-item" style={style}>
+          <div className="course-header">
+            <span className="course-code">{code}</span>
+            <span className="course-lang">{lang}</span>
+          </div>
+          <h3 className="course-title">{title}</h3>
+          <div className="course-details">
+            <div className="course-time">
+              {displayStartTime} - {displayEndTime}
+            </div>
+            <div className="course-professor">
+              Prof. {professor}
+            </div>
+          </div>
+        </div>
+      );
 }
