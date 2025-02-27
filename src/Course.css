@@ -1,62 +1,74 @@
+/* Course container */
 .course-item {
     background-color: #e9f2ff;
-    border-radius: 4px;
+    border-radius: 3px;
     border: 1px solid #a0c0e8;
-    padding: 8px;
+    padding: 4px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    min-height: 100%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin: 1px; /* Add margin to prevent exact boundary overlaps */
+    height: calc(100% - 2px); /* Adjust height to account for margins */
+    box-sizing: border-box;
+    min-width: 0; /* Helps with text overflow */
   }
   
-  .course-item:hover {
-    background-color: #d0e4ff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
-  }
-  
+  /* Header with code and language */
   .course-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 4px;
-    font-size: 0.8rem;
+    margin-bottom: 2px;
+    font-size: 0.65rem;
+    line-height: 1;
   }
   
   .course-code {
     font-weight: bold;
     color: #2c5282;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 75%;
   }
   
   .course-lang {
     background-color: #4a5568;
     color: white;
-    padding: 2px 4px;
-    border-radius: 3px;
-    font-size: 0.7rem;
+    padding: 1px 2px;
+    border-radius: 2px;
+    font-size: 0.6rem;
+    line-height: 1;
   }
   
+  /* Course title */
   .course-title {
-    margin: 4px 0;
+    margin: 2px 0;
     text-align: center;
-    font-size: 1rem;
+    font-size: 0.7rem;
     font-weight: 600;
     color: #1a365d;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 1.1;
   }
   
+  /* Course details */
   .course-details {
     margin-top: auto;
-    font-size: 0.8rem;
+    font-size: 0.65rem;
     color: #4a5568;
+    line-height: 1.1;
   }
   
   .course-time {
-    margin-bottom: 2px;
+    margin-bottom: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .course-professor {
@@ -64,12 +76,42 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 0.6rem;
   }
   
-  /* For courses that span multiple time slots */
-  .course-item[style*="span 2"] .course-title,
-  .course-item[style*="span 3"] .course-title,
-  .course-item[style*="span 4"] .course-title {
-    font-size: 1.1rem;
+  /* Responsive sizing based on course duration */
+  .duration-1 .course-title {
+    font-size: 0.65rem;
+  }
+  
+  .duration-1 .course-details {
+    font-size: 0.6rem;
+  }
+  
+  .duration-2 .course-title {
+    font-size: 0.7rem;
+  }
+  
+  .duration-3 .course-title,
+  .duration-4 .course-title,
+  .duration-5 .course-title {
+    font-size: 0.8rem;
+  }
+  
+  /* When courses are very short, simplify the display */
+  .duration-0 .course-details,
+  .duration-0 .course-header .course-lang {
+    display: none;
+  }
+  
+  .duration-0 .course-title {
+    font-size: 0.6rem;
+  }
+  
+  /* Additional hover effect */
+  .course-item:hover {
+    z-index: 10; /* Ensure hovered course appears above others */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.01);
   }
   
