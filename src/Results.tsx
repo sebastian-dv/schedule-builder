@@ -9,11 +9,16 @@ export default function Results({classes, addedCourses, isActive} : {classes:any
 		setExpanded((prev) => ({ ...prev, [code]: !prev[code] }));
 	}
 
-	const toggleAdded = (courseCode: string, section: any, groupNumber : any) => {
+	const toggleAdded = (course: any, section: any, groupNumber : any) => {
 
-		const courseKey = `${courseCode}-${groupNumber}`;
+		console.log("aaaa: ", course);
 
-		const schedule = {...section.schedule, code: courseKey}
+		const courseKey = `${course.code}-${groupNumber}`;
+		const courseTitle = course.title;
+		const sectionProf = section.professor;
+		const sectionLang = section.language;
+
+		const schedule = {...section.schedule, code: courseKey, title: courseTitle, prof:sectionProf, lang: sectionLang};
 
         setAdded((prevAdded) => ({
             ...prevAdded,
@@ -61,7 +66,7 @@ export default function Results({classes, addedCourses, isActive} : {classes:any
 															    <td className="add-btn">
 																    <button
 																	    className={added[course.code + "-" + groupNumber] ? "remove" : "add"}
-																	    onClick={() => toggleAdded(course.code, section, groupNumber)}
+																	    onClick={() => toggleAdded(course, section, groupNumber)}
 																    >
 																	    {added[course.code + "-" + groupNumber] ? "Remove" : "Add"}
 																    </button>

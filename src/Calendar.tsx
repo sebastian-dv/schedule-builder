@@ -77,20 +77,27 @@ export default function Calendar({showMore, addedCourses}: {showMore: boolean, a
 		{
 			courses.flat().map((courseDay: any, courseIndex: number) => 
 				Object.entries(courseDay).map(([key, lecture]: [string, any], lectureIndex: number) => {
-					console.log("Rendering lecture:", typeof lecture); // Debugging log
+					//console.log("Rendering lecture:" + "key: ", key + " lecture: ", lecture + "lectureIdx: ", lectureIndex ); // Debugging log
 
-					if(typeof lecture != "object") { // key
-						return;
-					}
+					const lectureCode = courseDay['code'] || 'No Code';
+					const lectureTitle = courseDay['title'] || "No Title";
+					const lectureProf = courseDay['prof'] || 'TBD';
+					const lectureLang = courseDay['lang'] || 'EN';
 
-					return (
-						<Course 
-							key={lecture['code']} 
+					if(typeof lecture == "object") { // key
+						return (
+							<Course
+							title={lectureTitle} 
+							professor={lectureProf}
+							lang={lectureLang}
+							code={lectureCode}
 							day={lecture.day} 
 							startTime={lecture["start-time"]} 
 							endTime={lecture["end-time"]} 
-						/>
-					);
+						  />
+						);
+					}
+					return;
 				})
 			)
 		}
