@@ -5,8 +5,8 @@ export default function Results({classes, addedCourses, isActive} : {classes:any
 	const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
 	const [added, setAdded] = useState<{ [key: string]: boolean}>({});
 
-	const toggleExpand = (code: string) => {
-		setExpanded((prev) => ({ ...prev, [code]: !prev[code] }));
+	const toggleExpand = (index: number) => {
+		setExpanded((prev) => ({ ...prev, [index]: !prev[index] }));
 	}
 
 	const toggleAdded = (course: any, section: any, groupNumber : any) => {
@@ -31,16 +31,16 @@ export default function Results({classes, addedCourses, isActive} : {classes:any
 	return (
 		<div className="results-container">
 			{isActive && classes && classes.length > 0 ? (
-				classes.map((course: any) => (
-					<table key={course.code} className="course-table">
+				classes.map((course: any, index: number) => (
+					<table key={index} className="course-table">
 						<tbody>
 							<tr className="course-row">
 								<td className="expand-btn">
 									<button 
-                                        onClick={() => toggleExpand(course.code)}
-                                        aria-label={expanded[course.code] ? "Collapse course details" : "Expand course details"}
+                                        onClick={() => toggleExpand(index)}
+                                        aria-label={expanded[index] ? "Collapse course details" : "Expand course details"}
                                     >
-										{expanded[course.code] ? "▼" : "▶"}
+										{expanded[index] ? "▼" : "▶"}
 									</button>
 								</td>
 								<td className="course-code">{course.code}</td>
@@ -48,7 +48,7 @@ export default function Results({classes, addedCourses, isActive} : {classes:any
 								<td className="course-credits">{course.credits} Credits</td>
 							</tr>
 
-							{expanded[course.code] && course.groups && (
+							{expanded[index] && course.groups && (
 								<tr className="group-details">
 									<td colSpan={4}>
                                         <div className="group-table-container">
