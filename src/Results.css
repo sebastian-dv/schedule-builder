@@ -37,7 +37,7 @@
 
 .course-code {
     font-weight: bold;
-    color: #007bff;
+    color: #30507a;
     width: 15%;
 }
 
@@ -47,9 +47,9 @@
 }
 
 .course-credits {
+    color: #fc17de;
     width: 15%;
     text-align: right;
-    color: #555;
 }
 
 /* Expand/Collapse Button */
@@ -84,30 +84,29 @@
 }
 
 .group-table-container {
-    padding: 0 15px 15px 80px; /* Significantly increased left padding for more indentation */
+    padding: 0 15px 15px 15px;
     background: #f8fafd;
     border-top: 1px solid #edf2f7;
     position: relative;
 }
 
-/* Add a visual indicator for the indentation */
-.group-table-container::before {
-    content: '';
-    position: absolute;
-    left: 40px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background-color: #e0e7ff;
-}
-
 .group-table {
-    width: 90%; /* Reduced width to enhance indentation effect */
+    width: 100%;
     border-collapse: collapse;
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    margin-left: auto; /* Additional indentation effect */
+}
+
+.group-table thead {
+    background-color: #edf2f7;
+}
+
+.group-table th {
+    padding: 10px 12px;
+    font-weight: 500;
+    color: #374151;
+    text-align: left;
 }
 
 .group-table tbody {
@@ -128,28 +127,80 @@
 }
 
 .group-row td {
-    padding: 10px 12px;
+    padding: 12px;
+    vertical-align: top;
+}
+
+/* Group divider styling */
+.group-divider-row td {
+    padding: 0;
+}
+
+.group-divider {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: #cbd5e0;
+    border-bottom: 1px solid #e2e8f0;
 }
 
 .group-number {
-    width: 15%;
+    width: 10%;
     font-weight: 500;
     color: #374151;
 }
 
 .group-language {
-    width: 20%;
+    width: 10%;
+    color: #4b5563;
+}
+
+.group-weeks {
+    width: 10%;
     color: #4b5563;
 }
 
 .group-professor {
-    width: 45%;
+    width: 20%;
     color: #4b5563;
+}
+
+.group-schedule {
+    width: 30%;
+    color: #4b5563;
+}
+
+.group-room {
+    width: 10%;
+    color: #4b5563;
+    font-weight: 500;
+}
+
+/* Schedule styles */
+.schedule-item {
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.schedule-day {
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+.schedule-time {
+    color: #4b5563;
+}
+
+.schedule-divider {
+    margin: 6px 0;
+    border: 0;
+    border-top: 1px dashed #e5e7eb;
 }
 
 /* Add/Remove Button */
 .add-btn {
-    width: 20%;
+    width: 15%;
     text-align: right;
 }
 
@@ -188,4 +239,11 @@
     padding: 30px;
     color: #6b7280;
     font-style: italic;
+}
+
+/* Group Header */
+.group-header {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
