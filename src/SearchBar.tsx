@@ -2,22 +2,32 @@ import axios from "axios";
 import { useState, useEffect, ChangeEvent } from "react";
 import { GETAFE_DATA, LEGANES_DATA } from "./Constants";
 import Results from "./Results";
+import "./SearchBar.css"; 
 
-export default function SearchBar() {
+export default function SearchBar({addedCourses} : {addedCourses:any}) {
   const [data, setData] = useState<any>({});
   const [input, setInput] = useState<string>("");
   const [classes, setClasses] = useState<any>();
   const [resultsActive, setResultsActive] = useState<boolean>(false);
   const [searchBy, setSearchBy] = useState<string>("class");
   const [searchResult, setSearchResult] = useState<any>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [addedCourses, setAddedCourses] = useState<any>();
+  //const [addedCourses, setAddedCourses] = useState<any>();
 
   // Passed to Results component, so when course is added, this runs and addedCourses is updated
-  const resultsData = (results:any) => {
-    setAddedCourses(results);
-    console.log(addedCourses);
-  }
+  const resultsData = (results: any) => {
+    console.log(results);
+    addedCourses((prev: any) => {
+        const exists = prev.some((course:any) => course.code === results.code);
+        
+        if (exists) {
+            return prev.filter((course:any) => course.code !== results.code); // Remove course
+        } else {
+            return [...prev, results]; // Add course
+        }
+    });
+};
 
   const searchParam = [
     { value: "class", label: "Class" },
@@ -50,24 +60,37 @@ export default function SearchBar() {
 		return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 	}
 
+  // Handle Enter key press
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      search();
+    }
+  };
+
   const search = () => {
     if (input.trim() !== "") {
+      setIsLoading(true);
       setResultsActive(true);
       console.log("attempt search");
-      switch (searchBy) {
-        case "class": {
-           setSearchResult(searchClass());
-           break;
+      setTimeout(() => {
+        switch (searchBy) {
+
+          case "class": {
+
+            setSearchResult(searchClass());
+            break;
+          }
+          case "code": {
+            setSearchResult(searchCode());
+            break;
+          }
+          case "major": {
+            setSearchResult(searchMajor());
+            break;
+          }
         }
-        case "code": {
-          setSearchResult(searchCode());
-          break;
-        }
-        case "major": {
-          setSearchResult(searchMajor());
-          break;
-        }
-      }
+        setIsLoading(false);
+      }, 300); // Small delay for loading state to be visible
     } else {
       console.log("no input");
     }
@@ -86,6 +109,7 @@ export default function SearchBar() {
     console.log(result);
     return result;
   };
+  
 
   const searchCode = () => {
     console.log("search by code");
@@ -120,66 +144,92 @@ export default function SearchBar() {
     return result;
 
   };
-
-
   useEffect(() => {
+    setIsLoading(true);
     axios
       .all([axios.get(GETAFE_DATA), axios.get(LEGANES_DATA)])
       .then(
         axios.spread((getafe, leganes) => {
-         setData({
+          setData({
             getafe: getafe.data,
             leganes: leganes.data,
           });
+          setIsLoading(false);
         })
       )
       .catch((err) => {
         console.log(err);
+        setIsLoading(false);
       });
-
   }, []);
 
-  useEffect( () => { // getClasses and set them once above useEffect has setData
-    setClasses(getClasses());
+  useEffect(() => {
+    // getClasses and set them once above useEffect has setData
+    if (Object.keys(data).length > 0) {
+      setClasses(getClasses());
+    }
   }, [data]);
 
   return (
-    <>
-      <div>
-        <div>
-          <span>Search By</span>
-          {searchParam.map((search) => (
-            <div key={search.value}>
-              <input
-                name="search"
-                type="radio"
-                value={search.value}
-                checked={searchBy === search.value}
-                onChange={(e) => setSearchBy(e.target.value)}
-              />
-              <label htmlFor={search.value}> {search.label} </label>
-            </div>
-          ))}
+    <div className="search-container">
+      <div className="search-header">
+        <h2>Course Search</h2>
+        <p>Find and add courses to your schedule</p>
+      </div>
+
+      <div className="search-options">
+        <div className="search-by-container">
+          <span className="search-label">Search By:</span>
+          <div className="search-radio-group">
+            {searchParam.map((search) => (
+              <div className="search-radio-option" key={search.value}>
+                <input
+                  id={`search-${search.value}`}
+                  name="search"
+                  type="radio"
+                  value={search.value}
+                  checked={searchBy === search.value}
+                  onChange={(e) => setSearchBy(e.target.value)}
+                />
+                <label htmlFor={`search-${search.value}`}>{search.label}</label>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <br />
-
-        <div>
+        <div className="search-input-container">
           <input
+            className="search-input"
             onChange={inputHandler}
             value={input}
-            placeholder="Search for classes"
+            placeholder={`Search by ${searchBy}...`}
             type="text"
+            onKeyPress={handleKeyPress}
           />
-          <button onClick={search}>Search</button>
+          <button 
+            className="search-button" 
+            onClick={search}
+            disabled={isLoading}
+          >
+            {isLoading ? "Searching..." : "Search"}
+          </button>
         </div>
       </div>
 
-      <div>
-        <Results classes={searchResult} addedCourses={resultsData} isActive={resultsActive}>
-
-        </Results>
+      <div className="search-results">
+        {isLoading ? (
+          <div className="loading-indicator">
+            <div className="spinner"></div>
+            <p>Loading courses...</p>
+          </div>
+        ) : (
+          <Results 
+            classes={searchResult} 
+            addedCourses={resultsData} 
+            isActive={resultsActive}
+          />
+        )}
       </div>
-    </>
+    </div>
   );
 }

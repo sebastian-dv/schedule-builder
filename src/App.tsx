@@ -5,14 +5,14 @@ import SearchBar from './SearchBar'
 
 function App() {
 
-  const [wantedClasses, setWantedClasses] = useState();
+  const [wantedClasses, setWantedClasses] = useState([]);
 
   return (
     <>
-      <SearchBar />
+      <SearchBar addedCourses={setWantedClasses}/>
 			<div></div>
 			<br />
-			<Calendar showMore={false} />
+			<Calendar showMore={true} addedCourses={wantedClasses}/>
     </>
   )
 }

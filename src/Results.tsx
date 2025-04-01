@@ -3,55 +3,88 @@ import { useState } from "react";
 export default function Results({classes, addedCourses, isActive} : {classes:any, addedCourses:any, isActive:boolean}) {
 
 	const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
+	const [added, setAdded] = useState<{ [key: string]: boolean}>({});
 
 	const toggleExpand = (code: string) => {
 		setExpanded((prev) => ({ ...prev, [code]: !prev[code] }));
 	}
 
+	const toggleAdded = (courseCode: string, section: any, groupNumber : any) => {
+
+		const courseKey = `${courseCode}-${groupNumber}`;
+
+		const schedule = {...section.schedule, code: courseKey}
+
+        setAdded((prevAdded) => ({
+            ...prevAdded,
+            [courseKey]: !prevAdded[courseKey], // Toggle based on previous state
+        }));
+
+		addedCourses(schedule);
+	}
+
 	return (
-		<>
-		<div>
-			{isActive && (
-				classes.map((course:any) => (
-					<table>
-					<tbody>
-					<tr className={course.code}>
-						<td>
-							<button onClick={() => toggleExpand(course.code)}>
-								{expanded[course.code] ? "▼" : "▶"}
-							</button>
-                        </td>
-						<td>{course.code}</td>
-						<td>{course.title}</td>
-						<td>{course.credits}</td>
-					</tr>
+		<div className="results-container">
+			{isActive && classes && classes.length > 0 ? (
+				classes.map((course: any) => (
+					<table key={course.code} className="course-table">
+						<tbody>
+							<tr className="course-row">
+								<td className="expand-btn">
+									<button 
+                                        onClick={() => toggleExpand(course.code)}
+                                        aria-label={expanded[course.code] ? "Collapse course details" : "Expand course details"}
+                                    >
+										{expanded[course.code] ? "▼" : "▶"}
+									</button>
+								</td>
+								<td className="course-code">{course.code}</td>
+								<td className="course-title">{course.title}</td>
+								<td className="course-credits">{course.credits} Credits</td>
+							</tr>
 
-					{expanded[course.code] && course.groups && (
-					<tr>
-						<td colSpan={5}>
-							<table>
-								<tbody>
-									{Object.values(course.groups).map((section: any, index: number) => (
-										<tr key={index}>
-											<td>{Object.keys(course.groups)[index]}</td>
-											<td>{section.language}</td>
-											<td>{section.professor}</td>
-											<td><button onClick={() => addedCourses(section)}>Add</button></td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-						</td>
-					</tr>
-					)}
-					</tbody>
-				</table>
+							{expanded[course.code] && course.groups && (
+								<tr className="group-details">
+									<td colSpan={4}>
+                                        <div className="group-table-container">
+										    <table className="group-table">
+											    <tbody>
+												    {Object.keys(course.groups).map((groupName: string, index: any) => {
+													    const groupNumber = groupName.replace("Grupo ", "");
+													    const section = course.groups[groupName];
+
+													    return (
+														    <tr key={index} className="group-row">
+															    <td className="group-number">{groupNumber}</td>
+															    <td className="group-language">{section.language}</td>
+															    <td className="group-professor">{section.professor}</td>
+															    <td className="add-btn">
+																    <button
+																	    className={added[course.code + "-" + groupNumber] ? "remove" : "add"}
+																	    onClick={() => toggleAdded(course.code, section, groupNumber)}
+																    >
+																	    {added[course.code + "-" + groupNumber] ? "Remove" : "Add"}
+																    </button>
+															    </td>
+														    </tr>
+													    );
+												    })}
+											    </tbody>
+										    </table>
+                                        </div>
+									</td>
+								</tr>
+							)}
+						</tbody>
+					</table>
 				))
-			)}
-
+			) : isActive ? (
+                <div className="no-results">
+                    <p>No courses found. Try a different search.</p>
+                </div>
+            ) : null}
 		</div>
-		</>
-	)
+	);
 }
 
 
